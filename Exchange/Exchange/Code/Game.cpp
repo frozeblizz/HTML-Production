@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "TextMeshVbo.h"
 #include "TextObject.h"
+#include "DiaTextMeshVbo.h"
 
 Game* Game::instance = nullptr;
 
@@ -62,6 +63,10 @@ void Game::init(int width, int height)
 	text->loadData();
 	renderer->addMesh(TextMeshVbo::MESH_NAME, text);
 
+	/*DiaTextMeshVbo * diaText = new DiaTextMeshVbo();
+	diaText->loadData();
+	renderer->addMesh(DiaTextMeshVbo::MESH_NAME, diaText);*/
+
 	
 	GameObject * MC = new GameObject(); //MC
 	MC->loadTexture("character/MC.png");
@@ -83,23 +88,42 @@ void Game::init(int width, int height)
 	char2->translate(glm::vec3(370, 90, 0));
 	objects.push_back(char2);
 
-	GameObject * dialogue = new GameObject(); //Dialogue
-	dialogue->setColor(1.0, 0.0, 0.0);
-	dialogue->setSize(990, 250);
-	dialogue->translate(glm::vec3(120, -220, 0));
-	objects.push_back(dialogue);
+	GameObject * dialogueBox = new GameObject(); //Dialogue
+	dialogueBox->setColor(1.0, 0.0, 0.0);
+	dialogueBox->setSize(990, 250);
+	dialogueBox->translate(glm::vec3(120, -220, 0));
+	objects.push_back(dialogueBox);
 
-	GameObject * nameBox = new GameObject(); //Name
+	GameObject * nameBox = new GameObject(); //NameBox
 	nameBox->setColor(0.0, 0.0, 1.0);
 	nameBox->setSize(200, 50);
 	nameBox->translate(glm::vec3(-275, -70, 0));
 	objects.push_back(nameBox);
 
-	TextObject * name = new TextObject();
+	TextObject * name = new TextObject(); //Name
 	SDL_Color textColor = { 0,0,255 };
 	name->loadText("MC", textColor, "neuropol.ttf", 40);
 	name->translate(glm::vec3(-275, -70, 0));
 	objects.push_back(name);
+
+	TextObject * dialogue = new TextObject(); 
+	string test = "asasddddasdddddddd";
+	string t1;
+	SDL_Color dialogueColor = { 0,0,0 };
+	for (int i = 0; i < test.length(); i++)
+	{
+		cout << i << endl;
+		t1 += test[i];
+		dialogue->loadText(t1, dialogueColor, "neuropol.ttf", 40);
+		dialogue->setPosition(glm::vec3(0, -50, 0));
+		objects.push_back(dialogue);
+	}
+	/*dialogue->loadText(test, dialogueColor, "neuropol.ttf", 40);
+	dialogue->setPosition(glm::vec3(0, -50, 0));
+	objects.push_back(dialogue);*/
+	
+	
+	
 
 	int num = 2;
 	for (int i = 0; i < num; i++)
@@ -119,7 +143,7 @@ void Game::init(int width, int height)
 		SDL_Color textColor = { 0,0,255 };
 		if (i == 0)
 		{
-			text->loadText("Choice 2aygsgdkljad", textColor, "neuropol.ttf", 40);
+			text->loadText("Choice 2", textColor, "neuropol.ttf", 40);
 		}
 		else
 		{

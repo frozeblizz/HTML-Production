@@ -66,7 +66,7 @@ void TextObject::loadText(string text, SDL_Color textColor, string fontname, int
 	TTF_Font * font = TTF_OpenFont(fontchar, fontSize);
 	if (font)
 	{
-		SDL_Surface* surfaceMessage = TTF_RenderText_Blended(font, text.c_str(), textColor);
+		SDL_Surface* surfaceMessage = TTF_RenderText_Blended(font, text.c_str() , textColor);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surfaceMessage->w, surfaceMessage->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, surfaceMessage->pixels);
 		this->setSize(surfaceMessage->w, -surfaceMessage->h);
 		SDL_FreeSurface(surfaceMessage);

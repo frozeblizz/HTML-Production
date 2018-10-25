@@ -10,5 +10,6 @@ class Scene
 public:
 	Scene(GameObject &background, GameObject **character);
 	void LoadScene();
+	void NextScene();
 	
 };

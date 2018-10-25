@@ -166,6 +166,7 @@
     <ClInclude Include="Code\stb_image.h" />
     <ClInclude Include="Code\TextMeshVbo.h" />
     <ClInclude Include="Code\TextObject.h" />
+    <ClInclude Include="DiaTextMeshVbo.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +180,7 @@
     <ClCompile Include="Code\SquareMeshVbo.cpp" />
     <ClCompile Include="Code\TextMeshVbo.cpp" />
     <ClCompile Include="Code\TextObject.cpp" />
+    <ClCompile Include="DiaTextMeshVbo.cpp" />
     <ClCompile Include="Exchange.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

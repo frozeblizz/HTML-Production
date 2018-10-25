@@ -8,11 +8,15 @@ void TextMeshVbo::loadData()
 	//VBO data
 	GLfloat vertexData[] =
 	{	  
-
+	  -0.5f, -0.5f,
+	  0.5f, -0.5f,
+	  0.5f,  0.5f,
+	  -0.5f,  0.5f
+	  /*
 	  0.0f, 0.0f,
 	  1.0f, 0.0f,
 	  1.0f, 1.0f,
-	  0.0f, 1.0f
+	  0.0f, 1.0f*/
 	};
 
 	GLfloat texData[] =
