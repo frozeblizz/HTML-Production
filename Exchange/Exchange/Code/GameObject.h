@@ -13,6 +13,7 @@ public:
 	~GameObject();
 	void setColor(float r, float g, float b);
 	void render(glm::mat4 globalModelTransform);
+	void update(float deltaTime);
 	void loadTexture(string fileName);
 };
 

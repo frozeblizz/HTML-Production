@@ -6,9 +6,11 @@
 #include "TextMeshVbo.h"
 #include "TextObject.h"
 #include "DiaTextMeshVbo.h"
+#include "Scene.h"
 
 Game* Game::instance = nullptr;
 
+Scene* scene = new Scene();
 
 Game * Game::getInstance()
 {
@@ -30,7 +32,7 @@ void Game::handleMouse(int x, int y)
 	float realX, realY;
 	realX = -3 + x * (6.0 / winWidth);
 	realY = -3 + (winHeight - y) * (6.0 / winHeight);
-	
+	scene->NextScene();
 }
 
 void Game::handleKey(char ch)
@@ -63,17 +65,20 @@ void Game::init(int width, int height)
 	text->loadData();
 	renderer->addMesh(TextMeshVbo::MESH_NAME, text);
 
-	/*DiaTextMeshVbo * diaText = new DiaTextMeshVbo();
+	DiaTextMeshVbo * diaText = new DiaTextMeshVbo();
 	diaText->loadData();
-	renderer->addMesh(DiaTextMeshVbo::MESH_NAME, diaText);*/
+	renderer->addMesh(DiaTextMeshVbo::MESH_NAME, diaText);
 
-	
+	GameObject * BG = new GameObject();
+	BG->loadTexture("Background/test1.jpg");
+	BG->setSize(1280, -720);
+	BG->translate(glm::vec3(0, 0, 0));
+	objects.push_back(BG);
+
 	GameObject * MC = new GameObject(); //MC
 	MC->loadTexture("character/MC.png");
-	
 	MC->setSize(250, -350);
 	MC->translate(glm::vec3(-500, -200, 0));
-
 	objects.push_back(MC);
 
 	GameObject * char1 = new GameObject(); //Char1
@@ -100,27 +105,23 @@ void Game::init(int width, int height)
 	nameBox->translate(glm::vec3(-275, -70, 0));
 	objects.push_back(nameBox);
 
-	TextObject * name = new TextObject(); //Name
+	TextObject * name = new TextObject(true); //Name
 	SDL_Color textColor = { 0,0,255 };
 	name->loadText("MC", textColor, "neuropol.ttf", 40);
 	name->translate(glm::vec3(-275, -70, 0));
 	objects.push_back(name);
 
-	TextObject * dialogue = new TextObject(); 
+	TextObject * dialogue = new TextObject(false); 
 	string test = "asasddddasdddddddd";
-	string t1;
 	SDL_Color dialogueColor = { 0,0,0 };
-	for (int i = 0; i < test.length(); i++)
-	{
-		cout << i << endl;
-		t1 += test[i];
-		dialogue->loadText(t1, dialogueColor, "neuropol.ttf", 40);
-		dialogue->setPosition(glm::vec3(0, -50, 0));
-		objects.push_back(dialogue);
-	}
-	/*dialogue->loadText(test, dialogueColor, "neuropol.ttf", 40);
+	dialogue->setFullText(test);
+	dialogue->setFontName("neuropol.ttf");
+	dialogue->setTextColor(dialogueColor);
+	dialogue->setFontSize(40);
 	dialogue->setPosition(glm::vec3(0, -50, 0));
-	objects.push_back(dialogue);*/
+	//dialogue->update(500);
+	objects.push_back(dialogue);
+	
 	
 	
 	
@@ -139,7 +140,7 @@ void Game::init(int width, int height)
 		obj6->translate(glm::vec3(135, upper - diff/((num * i+1) * 1.0f), 0));
 		objects.push_back(obj6);
 
-		TextObject * text = new TextObject();
+		TextObject * text = new TextObject(true);
 		SDL_Color textColor = { 0,0,255 };
 		if (i == 0)
 		{
@@ -161,6 +162,13 @@ void Game::render()
 	this->getRenderer()->render(this->objects);
 }
 
+void Game::update(float deltaTime)
+{
+	for (DrawableObject* obj : objects) {
+		obj->update(deltaTime);
+	}
+}
+
 Game::Game()
 {
 	for (DrawableObject* obj : objects) {
@@ -168,5 +176,6 @@ Game::Game()
 	}
 	renderer = nullptr;
 }
+
 
 

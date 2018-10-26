@@ -8,6 +8,7 @@ class Scene
 	GameObject* choice;
 	string text;
 public:
+	Scene();
 	Scene(GameObject &background, GameObject **character);
 	void LoadScene();
 	void NextScene();

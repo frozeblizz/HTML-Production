@@ -19,5 +19,6 @@ public:
 	void handleKey(char ch);
 	void init(int width, int height);
 	void render();
+	void update(float deltaTime);
 
 };

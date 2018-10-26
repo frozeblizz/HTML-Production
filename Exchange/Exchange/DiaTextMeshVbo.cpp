@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "DiaTextMeshVbo.h"
 
-string const DiaTextMeshVbo::MESH_NAME = "text";
+string const DiaTextMeshVbo::MESH_NAME = "Diatext";
 
 void DiaTextMeshVbo::loadData()
 {
