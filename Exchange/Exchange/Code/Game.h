@@ -3,6 +3,7 @@
 #include <vector>
 #include "DrawableObject.h"
 #include "GLRenderer.h"
+#include "TextObject.h"
 
 using namespace std;
 class Game
@@ -20,5 +21,8 @@ public:
 	void init(int width, int height);
 	void render();
 	void update(float deltaTime);
+
+	TextObject * dialogue;
+
 
 };

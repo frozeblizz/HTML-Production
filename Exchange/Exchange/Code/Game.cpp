@@ -4,13 +4,13 @@
 #include "SquareMeshVbo.h"
 #include "GameObject.h"
 #include "TextMeshVbo.h"
-#include "TextObject.h"
+
 #include "DiaTextMeshVbo.h"
 #include "Scene.h"
 
 Game* Game::instance = nullptr;
 
-Scene* scene = new Scene();
+
 
 Game * Game::getInstance()
 {
@@ -29,11 +29,20 @@ GLRenderer * Game::getRenderer()
 
 void Game::handleMouse(int x, int y)
 {
-	float realX, realY;
-	realX = -3 + x * (6.0 / winWidth);
-	realY = -3 + (winHeight - y) * (6.0 / winHeight);
-	scene->NextScene();
+	if (this->dialogue->GetComplete() == false)
+	{
+		int index = this->dialogue->GetFullText().length();
+		this->dialogue->SetIndex(index - 1);
+	}
+	else
+	{
+		dialogue->setFullText("ouiytiyruteytrtuyuiphgcb");
+		dialogue->SetIndex(0);
+		dialogue->SetComplete(false);
+	}
+	
 }
+	
 
 void Game::handleKey(char ch)
 {
@@ -82,14 +91,14 @@ void Game::init(int width, int height)
 	objects.push_back(MC);
 
 	GameObject * char1 = new GameObject(); //Char1
-	char1->setColor(0.0, 1.0, 1.0);
-	char1->setSize(300, 400);
+	char1->loadTexture("Character/Vivian.png");
+	char1->setSize(300, -400);
 	char1->translate(glm::vec3(-100, 90, 0));
 	objects.push_back(char1);
 
 	GameObject * char2 = new GameObject(); //Char2
-	char2->setColor(0.0, 1.0, 1.0);
-	char2->setSize(300, 400);
+	char2->loadTexture("Character/Zac.png");
+	char2->setSize(300, -400);
 	char2->translate(glm::vec3(370, 90, 0));
 	objects.push_back(char2);
 
@@ -111,22 +120,23 @@ void Game::init(int width, int height)
 	name->translate(glm::vec3(-275, -70, 0));
 	objects.push_back(name);
 
-	TextObject * dialogue = new TextObject(false); 
-	string test = "asasddddasdddddddd";
+	TextObject * dialogue = new TextObject(false);
+	string dialogueText = "asasddddasddddddddffffffffffffffffffffffffffffffffffffff";
 	SDL_Color dialogueColor = { 0,0,0 };
-	dialogue->setFullText(test);
+	dialogue->setFullText(dialogueText);
 	dialogue->setFontName("neuropol.ttf");
 	dialogue->setTextColor(dialogueColor);
-	dialogue->setFontSize(40);
-	dialogue->setPosition(glm::vec3(0, -50, 0));
-	//dialogue->update(500);
+	dialogue->setFontSize(30);
+	dialogue->setPosition(glm::vec3(-350, -100, 0));
 	objects.push_back(dialogue);
+
+	this->dialogue = dialogue;
 	
 	
 	
 	
 
-	int num = 2;
+	/*int num = 2;
 	for (int i = 0; i < num; i++)
 	{
 		int upper = 180;
@@ -153,7 +163,7 @@ void Game::init(int width, int height)
 		text->translate(glm::vec3(135, upper - diff / ((num * i + 1) * 1.0f), 0));
 		objects.push_back(text);
 	}
-
+	*/
 	
 }
 

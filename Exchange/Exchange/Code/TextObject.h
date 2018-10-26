@@ -10,6 +10,7 @@ class TextObject :public DrawableObject
 private:
 	unsigned int texture;
 	bool middleText;
+	bool complete = false;
 	string fullText;
 	int index = 0;
 	int fontSize;
@@ -26,5 +27,9 @@ public:
 	void render(glm::mat4 globalModelTransform);
 	void update(float deltaTime);
 	void loadText(string text, SDL_Color textColor, string fontname, int fontSize);
+	string GetFullText();
+	void SetIndex(int ind);
+	bool GetComplete();
+	void SetComplete(bool comp);
 	
 };

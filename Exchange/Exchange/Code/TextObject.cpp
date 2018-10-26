@@ -98,6 +98,10 @@ void TextObject::update(float deltaTime)
 		loadText(a, textColor, fontName, fontSize);
 		index++;
 	}
+	else
+	{
+		complete = true;
+	}
 	
 }
 
@@ -142,4 +146,24 @@ void TextObject::setFontName(string font)
 void TextObject::setFontSize(int size)
 {
 	fontSize = size;
+}
+
+string TextObject::GetFullText()
+{
+	return fullText;
+}
+
+void TextObject::SetIndex(int ind)
+{
+	index = ind;
+}
+
+bool TextObject::GetComplete()
+{
+	return complete;
+}
+
+void TextObject::SetComplete(bool comp)
+{
+	complete = comp;
 }
