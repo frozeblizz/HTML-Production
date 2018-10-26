@@ -1,0 +1,7 @@
+*.dll
+*.lib
+*.obj
+*.log
+*.exe
+*.vcxproj
+Exchange/.vs/Exchange/v15/Browse.VC.opendb
