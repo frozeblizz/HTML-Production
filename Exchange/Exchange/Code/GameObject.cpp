@@ -97,3 +97,7 @@ void GameObject::loadTexture(string fileName)
 
 }
 
+void GameObject::update(float deltaTime)
+{
+
+}

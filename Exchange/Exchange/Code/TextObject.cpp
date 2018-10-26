@@ -2,9 +2,11 @@
 #include "TextObject.h"
 #include "Game.h"
 #include "TextMeshVbo.h"
+#include "DiaTextMeshVbo.h"
 
-TextObject::TextObject()
+TextObject::TextObject(bool mode)
 {
+	middleText = mode;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -19,8 +21,7 @@ TextObject::~TextObject()
 
 void TextObject::render(glm::mat4 globalModelTransform)
 {
-	TextMeshVbo *textMesh = dynamic_cast<TextMeshVbo *> (Game::getInstance()->getRenderer()->getMesh(TextMeshVbo::MESH_NAME));
-
+	
 	GLuint modelMatixId = Game::getInstance()->getRenderer()->getModelMatrixAttrId();
 	GLuint modeId = Game::getInstance()->getRenderer()->getModeUniformId();
 
@@ -42,19 +43,62 @@ void TextObject::render(glm::mat4 globalModelTransform)
 
 	glm::mat4 currentMatrix = this->getTransform();
 
-	if (textMesh != nullptr) {
+	if (middleText)
+	{
+		TextMeshVbo *textMesh = dynamic_cast<TextMeshVbo *> (Game::getInstance()->getRenderer()->getMesh(TextMeshVbo::MESH_NAME));
+		if (textMesh != nullptr) {
 
-		currentMatrix = globalModelTransform * currentMatrix;
-		glUniformMatrix4fv(modelMatixId, 1, GL_FALSE, glm::value_ptr(currentMatrix));
-		glUniform1i(modeId, 1);
-		//squareMesh->resetTexcoord();
-		textMesh->render();
-		glBindTexture(GL_TEXTURE_2D, 0);
+			currentMatrix = globalModelTransform * currentMatrix;
+			glUniformMatrix4fv(modelMatixId, 1, GL_FALSE, glm::value_ptr(currentMatrix));
+			glUniform1i(modeId, 1);
+			//squareMesh->resetTexcoord();
+			textMesh->render();
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
 	}
+	else
+	{
+		DiaTextMeshVbo *textMesh = dynamic_cast<DiaTextMeshVbo *> (Game::getInstance()->getRenderer()->getMesh(DiaTextMeshVbo::MESH_NAME));
+		if (textMesh != nullptr) {
+
+			currentMatrix = globalModelTransform * currentMatrix;
+			glUniformMatrix4fv(modelMatixId, 1, GL_FALSE, glm::value_ptr(currentMatrix));
+			glUniform1i(modeId, 1);
+			//squareMesh->resetTexcoord();
+			textMesh->render();
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
+	}
+	
 }
 
 void TextObject::update(float deltaTime)
 {
+	/*countUpdateFrame++;
+	if (countUpdateFrame < 5)
+	{
+		return;
+	}
+	countUpdateFrame = 0;*/
+	if (middleText)
+	{
+		return;
+	}
+	countUpdateFrame += deltaTime;
+	if (countUpdateFrame < 1000 / fullText.length())
+	{
+		return;
+	}
+	countUpdateFrame = 0;
+
+	if (index < fullText.length())
+	{
+		string a;
+		a = fullText.substr(0, index + 1);
+		loadText(a, textColor, fontName, fontSize);
+		index++;
+	}
+	
 }
 
 void TextObject::loadText(string text, SDL_Color textColor, string fontname, int fontSize)
@@ -78,4 +122,24 @@ void TextObject::loadText(string text, SDL_Color textColor, string fontname, int
 		return;
 	}
 	
+}
+
+void TextObject::setFullText(string text)
+{
+	fullText = text;
+}
+
+void TextObject::setTextColor(SDL_Color color)
+{
+	textColor = color;
+}
+
+void TextObject::setFontName(string font)
+{
+	fontName = font;
+}
+
+void TextObject::setFontSize(int size)
+{
+	fontSize = size;
 }
