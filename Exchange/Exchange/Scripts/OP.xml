@@ -3,42 +3,28 @@
 <!-- New XML document created with EditiX XML Editor (http://www.editix.com) at Wed Oct 31 15:37:20 ICT 2018 -->
 
 
-<Background>
+<Scene>
 
- Bedroom
+ <Background>Background/pikachu.jpg</Background>
 
- </Background>
-
- <Character>
-
- None
-
- </Character>
+ <Character></Character>
 
  <Dialogue>
-
- 
- *incoming mail sounds*\\
- Hmm...\\
- Who is calling in this early morning?\\
- Blah blah\\
+ <num>3</num>
+ <s1>*incoming mail sounds*</s1>
+ <s2>Hmm...</s2>
+ <s3>Who is calling in this early morning?</s3>
 
 </Dialogue>
 
  <Choice>
 
- <c1>
-
-  I'm sorry
-
- </c1>
-
- <c2>
-
-  Are you ok?
-
- </c2>
+ <num>2</num>
+ <c1>I'm sorry</c1>
+ <c2>Are you ok?</c2>
 
  </Choice>
 
- 
+
+
+</Scene>

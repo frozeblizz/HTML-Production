@@ -4,6 +4,11 @@
 #include "TextMeshVbo.h"
 #include "DiaTextMeshVbo.h"
 
+TextObject::TextObject()
+{
+
+}
+
 TextObject::TextObject(bool mode)
 {
 	middleText = mode;

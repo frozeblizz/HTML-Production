@@ -1,16 +1,22 @@
 #pragma once
 #include "GameObject.h"
+#include "Choices.h"
 #include <string>
+#include "tinyxml2.h"
+
+using namespace tinyxml2;
+
 class Scene
 {
+	
+public:
 	GameObject* background;
 	GameObject** character;
-	GameObject* choice;
-	string text;
-public:
+	Choices* choice;
+	string* text;
 	Scene();
-	Scene(GameObject &background, GameObject **character);
-	void LoadScene();
+	Scene(const char * xml);
+
 	void Next();
 	
 };
