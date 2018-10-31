@@ -12,7 +12,7 @@ class Scene
 public:
 	GameObject* background;
 	GameObject** character;
-	Choices* choice;
+	vector<Choices*> choice;
 	string* text;
 	Scene();
 	Scene(const char * xml);

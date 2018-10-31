@@ -21,7 +21,7 @@ void Choices::render(glm::mat4 globalModelTransform)
 	GLuint modelMatixId = Game::getInstance()->getRenderer()->getModelMatrixAttrId();
 	GLuint modeId = Game::getInstance()->getRenderer()->getModeUniformId();
 
-	glBindTexture(GL_TEXTURE_2D, texture);
+	
 
 	if (modelMatixId == -1) {
 		cout << "Error: Can't perform transformation " << endl;
@@ -37,7 +37,7 @@ void Choices::render(glm::mat4 globalModelTransform)
 		//currentMatrix = glm::scale(currentMatrix, glm::vec3(0.25f, 0.3f, 1.0f));
 		glUniformMatrix4fv(modelMatixId, 1, GL_FALSE, glm::value_ptr(currentMatrix));
 
-		glBindTexture(GL_TEXTURE_2D, texture);
+		glBindTexture(GL_TEXTURE_2D, BGtexture);
 		glUniform1i(modeId, 1);
 		squareMesh->render();
 
@@ -48,33 +48,19 @@ void Choices::render(glm::mat4 globalModelTransform)
 
 	}
 
+	
+	
+	TextMeshVbo *textMesh = dynamic_cast<TextMeshVbo *> (Game::getInstance()->getRenderer()->getMesh(TextMeshVbo::MESH_NAME));
+	if (textMesh != nullptr) {
 
-	if (middleText)
-	{
-		TextMeshVbo *textMesh = dynamic_cast<TextMeshVbo *> (Game::getInstance()->getRenderer()->getMesh(TextMeshVbo::MESH_NAME));
-		if (textMesh != nullptr) {
-
-			currentMatrix = globalModelTransform * currentMatrix;
-			glUniformMatrix4fv(modelMatixId, 1, GL_FALSE, glm::value_ptr(currentMatrix));
-			glUniform1i(modeId, 1);
-			//squareMesh->resetTexcoord();
-			textMesh->render();
-			glBindTexture(GL_TEXTURE_2D, 0);
-		}
+		currentMatrix = globalModelTransform * currentMatrix;
+		glUniformMatrix4fv(modelMatixId, 1, GL_FALSE, glm::value_ptr(currentMatrix));
+		glUniform1i(modeId, 1);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		textMesh->render();
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-	else
-	{
-		DiaTextMeshVbo *textMesh = dynamic_cast<DiaTextMeshVbo *> (Game::getInstance()->getRenderer()->getMesh(DiaTextMeshVbo::MESH_NAME));
-		if (textMesh != nullptr) {
-
-			currentMatrix = globalModelTransform * currentMatrix;
-			glUniformMatrix4fv(modelMatixId, 1, GL_FALSE, glm::value_ptr(currentMatrix));
-			glUniform1i(modeId, 1);
-			//squareMesh->resetTexcoord();
-			textMesh->render();
-			glBindTexture(GL_TEXTURE_2D, 0);
-		}
-	}
+	
 }
 
 void Choices::loadTexture(string fileName)

@@ -33,7 +33,7 @@ Scene::Scene(const char * xml)
 	ele = doc.FirstChildElement("Scene")->FirstChildElement("Choice")->FirstChildElement();
 	int choiceSize = stoi(ele->GetText());
 	 
-	choice = new Choices[choiceSize];
+	choice.clear();
 
 	ele = ele->NextSiblingElement();
 
@@ -43,12 +43,14 @@ Scene::Scene(const char * xml)
 	int diff = upper - lower;
 	for (int i = 0; i < choiceSize; i++)
 	{
-		choice[i] = Choices();
-		choice[i].loadTexture("Background/pikachu.jpg");
-		choice[i].setSize(800, 60);
-		choice[i].setPosition(glm::vec3(135, upper - ((diff / (choiceSize*1.0f))*(i + 1)), 0));
+		Choices * ch = new Choices();
+		ch->loadTexture("Background/pikachu.jpg");
+		//ch->setSize(800, 60);
+		ch->setPosition(glm::vec3(135, upper - ((diff / (choiceSize*1.0f))*(i + 1)), 0));
 		cout << ele->GetText();
-		choice[i].loadText(ele->GetText(), textcolor, "neuropol.ttf", 40);
+		string temp(ele->GetText());
+		ch->loadText(temp, textcolor, "neuropol.ttf", 40);
+		choice.push_back(ch);
 		ele = ele->NextSiblingElement();
 	}
 	

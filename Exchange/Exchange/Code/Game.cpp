@@ -245,8 +245,10 @@ void Game::LoadScene(Scene scene)
 {
 	objects.push_back(scene.background);
 	
-	objects.push_back(scene.choice);
-
+	for (Choices *ch : scene.choice)
+	{
+		objects.push_back(ch);
+	}
 	
 
 }
