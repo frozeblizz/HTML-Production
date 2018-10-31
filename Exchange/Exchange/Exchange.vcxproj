@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Choices.h" />
     <ClInclude Include="Code\DrawableObject.h" />
     <ClInclude Include="Code\Game.h" />
     <ClInclude Include="Code\GameObject.h" />
@@ -166,10 +167,12 @@
     <ClInclude Include="Code\stb_image.h" />
     <ClInclude Include="Code\TextMeshVbo.h" />
     <ClInclude Include="Code\TextObject.h" />
+    <ClInclude Include="Code\tinyxml2.h" />
     <ClInclude Include="DiaTextMeshVbo.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Choices.cpp" />
     <ClCompile Include="Code\DrawableObject.cpp" />
     <ClCompile Include="Code\Game.cpp" />
     <ClCompile Include="Code\GameObject.cpp" />
@@ -178,8 +181,10 @@
     <ClCompile Include="Code\MeshVbo.cpp" />
     <ClCompile Include="Code\Shader.cpp" />
     <ClCompile Include="Code\SquareMeshVbo.cpp" />
+    <ClCompile Include="Code\TestXML.cpp" />
     <ClCompile Include="Code\TextMeshVbo.cpp" />
     <ClCompile Include="Code\TextObject.cpp" />
+    <ClCompile Include="Code\tinyxml2.cpp" />
     <ClCompile Include="DiaTextMeshVbo.cpp" />
     <ClCompile Include="Exchange.cpp" />
     <ClCompile Include="pch.cpp">

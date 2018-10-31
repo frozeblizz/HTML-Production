@@ -18,7 +18,7 @@ void Scene::LoadScene()
 
 }
 
-void Scene::NextScene()
+void Scene::Next()
 {
 	//Reduce delta time to 0
 }

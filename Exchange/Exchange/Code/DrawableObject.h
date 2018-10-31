@@ -19,6 +19,8 @@ public:
 	virtual void update(float deltaTime) = 0;
 	void setSize(float sizeX, float sizeY);
 	void setPosition(glm::vec3 newPosition);
+	glm::vec3 getPostion();
+	glm::vec3 getSize();
 	void translate(glm::vec3 moveDistance);
 	//Rotate, Scale ???
 

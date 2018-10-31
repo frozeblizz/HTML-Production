@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New XML document created with EditiX XML Editor (http://www.editix.com) at Wed Oct 31 15:37:20 ICT 2018 -->
+
+
+<Background>
+
+ Bedroom
+
+ </Background>
+
+ <Character>
+
+ None
+
+ </Character>
+
+ <Dialogue>
+
+ 
+ *incoming mail sounds*\\
+ Hmm...\\
+ Who is calling in this early morning?\\
+ Blah blah\\
+
+</Dialogue>
+
+ <Choice>
+
+ <c1>
+
+  I'm sorry
+
+ </c1>
+
+ <c2>
+
+  Are you ok?
+
+ </c2>
+
+ </Choice>
+
+ 
