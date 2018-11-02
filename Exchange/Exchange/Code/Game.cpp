@@ -53,7 +53,7 @@ void Game::handleMouse(int x, int y)
 		{
 			if (choices[i]->GetID() == 0)
 			{
-				dialogue->setFullText("1");
+				dialogue->setFullText("1111111111111111111111111111111111");
 			}
 			else if (choices[i]->GetID() == 1)
 			{
@@ -152,13 +152,13 @@ void Game::init(int width, int height)
 	objects.push_back(nameBox);
 
 	TextObject * name = new TextObject(true); //Name
-	SDL_Color textColor = { 0,0,255 };
+	SDL_Color textColor = { 0,0,255 }; //BGR 
 	name->loadText("Name", textColor, "neuropol.ttf", 40);
 	name->translate(glm::vec3(-275, -70, 0));
 	objects.push_back(name);
 
 	TextObject * dialogue = new TextObject(false);
-	string dialogueText = "asasddddasddddddddffffffffffffffffffffffffffffffffffffff";
+	string dialogueText = "Lorem ipsum dolor sit amet, consectetur";
 	SDL_Color dialogueColor = { 0,0,0 };
 	dialogue->setFullText(dialogueText);
 	dialogue->setFontName("neuropol.ttf");
@@ -169,37 +169,43 @@ void Game::init(int width, int height)
 	this->dialogue = dialogue;
 	
 	const int num = 2;
+	bool ActivateChoice = false;
 	choicesNum = num;
-	Choices * choice[num]; 
+	Choices ** choice; 
 	
-	
-	for (int i = 0; i < num; i++)
+	if (ActivateChoice)
 	{
-		choice[i] = new Choices();
-		int upper = 320;
-		int lower = -20;
+		choice = new Choices*[num];
 
-		float diff = upper - lower;
-		choice[i]->SetID(i);
-		cout << "Choice " << i << " id: " << choice[i]->GetID() << endl;
-		choice[i]->setColor(0.0, 0.3 * i, 1.0, 1.0);
-		choice[i]->setSize(800, 60);
-		choice[i]->setPosition(glm::vec3(135, upper - ((diff/(num*1.0f))*(i+1)), 0));
-		objects.push_back(choice[i]);
-		this->choices[i] = choice[i];
-		TextObject * text = new TextObject(true);
-		SDL_Color textColor = { 0,0,255 };
-		if (i == 0)
+		for (int i = 0; i < num; i++)
 		{
-			text->loadText("Choice 1", textColor, "neuropol.ttf", 40);
+			choice[i] = new Choices();
+			int upper = 320;
+			int lower = -20;
+
+			float diff = upper - lower;
+			choice[i]->SetID(i);
+			cout << "Choice " << i << " id: " << choice[i]->GetID() << endl;
+			choice[i]->setColor(0.0, 0.3 * i, 1.0, 1.0);
+			choice[i]->setSize(800, 60);
+			choice[i]->setPosition(glm::vec3(135, upper - ((diff / (num*1.0f))*(i + 1)), 0));
+			objects.push_back(choice[i]);
+			this->choices[i] = choice[i];
+			TextObject * text = new TextObject(true);
+			SDL_Color textColor = { 0,0,255 };
+			if (i == 0)
+			{
+				text->loadText("Choice 1", textColor, "neuropol.ttf", 40);
+			}
+			else
+			{
+				text->loadText("Choice 2", textColor, "neuropol.ttf", 40);
+			}
+			text->translate(glm::vec3(135, upper - ((diff / (num*1.0f))*(i + 1)), 0));
+			objects.push_back(text);
 		}
-		else
-		{
-			text->loadText("Choice 2", textColor, "neuropol.ttf", 40);
-		}
-		text->translate(glm::vec3(135, upper - ((diff / (num*1.0f))*(i + 1)), 0));
-		objects.push_back(text);
 	}
+	
 
 
 }
