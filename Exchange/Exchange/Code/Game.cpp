@@ -8,9 +8,11 @@
 #include "Scene.h"
 #include "Choices.h"
 #include "tinyxml2.h"
+#include <vector>
 
 Game* Game::instance = nullptr;
 
+using namespace tinyxml2;
 
 Game * Game::getInstance()
 {
@@ -38,22 +40,22 @@ void Game::handleMouse(int x, int y)
 
 	for (int i = 0; i < choicesNum; i++)
 	{
-		leftmost[i] = (choices[i]->getPostion().x - (choices[i]->getSize().x / 2));
+	/*	leftmost[i] = (choices[i]->getPostion().x - (choices[i]->getSize().x / 2));
 		rightmost[i] = (choices[i]->getPostion().x + (choices[i]->getSize().x / 2));
 		upmost[i] = (choices[i]->getPostion().y + (choices[i]->getSize().y / 2));
 		lowmost[i] = (choices[i]->getPostion().y - (choices[i]->getSize().y / 2));
 
 		cout << "Choice " << i << "posX: " << choices[i]->getPostion().x << endl;
-		cout << "Choice " << i << "posY: " << choices[i]->getPostion().y << endl;
+		cout << "Choice " << i << "posY: " << choices[i]->getPostion().y << endl;*/
 	}
 
-	for (int i = 0; i < choicesNum; i++)
+	/*for (int i = 0; i < choicesNum; i++)
 	{
 		if (realX > leftmost[i] && realX < rightmost[i] && realY < upmost[i] && realY > lowmost[i])
 		{
 			if (choices[i]->GetID() == 0)
 			{
-				dialogue->setFullText("1111111111111111111111111111111111");
+				dialogue->setFullText("1");
 			}
 			else if (choices[i]->GetID() == 1)
 			{
@@ -61,7 +63,7 @@ void Game::handleMouse(int x, int y)
 			}
 			cout << "hit" << endl;
 		}
-	}
+	}*/
 	
 	if (this->dialogue->GetComplete() == false)
 	{
@@ -96,6 +98,7 @@ void Game::handleKey(char ch)
 
 void Game::init(int width, int height)
 {
+
 	winWidth = width;
 	winHeight = height;
 	renderer = new GLRendererColor(width, height);
@@ -115,11 +118,14 @@ void Game::init(int width, int height)
 	diaText->loadData();
 	renderer->addMesh(DiaTextMeshVbo::MESH_NAME, diaText);
 
-	GameObject * BG = new GameObject();
-	BG->loadTexture("Background/test1.jpg");
+
+	Scene first("Scripts/OP.xml");
+	LoadScene(first);
+	/*GameObject * BG = new GameObject();
+	BG->loadTexture("Background/pikachu.jpg");
 	BG->setSize(1280, -720);
 	BG->translate(glm::vec3(0, 0, 0));
-	objects.push_back(BG);
+	objects.push_back(BG);*/
 
 	GameObject * MC = new GameObject(); //MC
 	MC->loadTexture("character/MC.png");
@@ -152,13 +158,23 @@ void Game::init(int width, int height)
 	objects.push_back(nameBox);
 
 	TextObject * name = new TextObject(true); //Name
-	SDL_Color textColor = { 0,0,255 }; //BGR 
+	SDL_Color textColor = { 0,0,255 };
 	name->loadText("Name", textColor, "neuropol.ttf", 40);
 	name->translate(glm::vec3(-275, -70, 0));
 	objects.push_back(name);
 
+
+	XMLDocument doc;
+	int errorID = doc.LoadFile("Scripts/OP.xml");
+	
+	XMLElement * ele = doc.FirstChildElement("Scene")->FirstChildElement("Dialogue")->FirstChildElement("s1");
+
+	const char* textxml = ele->GetText();
+	cout << "From " << ele->Value() << " : " << text << endl;
+	ele = ele->NextSiblingElement();
 	TextObject * dialogue = new TextObject(false);
-	string dialogueText = "Lorem ipsum dolor sit amet, consectetur";
+
+	string dialogueText(textxml);
 	SDL_Color dialogueColor = { 0,0,0 };
 	dialogue->setFullText(dialogueText);
 	dialogue->setFontName("neuropol.ttf");
@@ -169,43 +185,46 @@ void Game::init(int width, int height)
 	this->dialogue = dialogue;
 	
 	const int num = 2;
-	bool ActivateChoice = false;
 	choicesNum = num;
-	Choices ** choice; 
+	Choices * choice[num]; 
+
+
 	
-	if (ActivateChoice)
+	for (int i = 0; i < num; i++)
 	{
-		choice = new Choices*[num];
+		choice[i] = new Choices();
+		int upper = 320;
+		int lower = -20;
 
-		for (int i = 0; i < num; i++)
-		{
-			choice[i] = new Choices();
-			int upper = 320;
-			int lower = -20;
-
-			float diff = upper - lower;
-			choice[i]->SetID(i);
-			cout << "Choice " << i << " id: " << choice[i]->GetID() << endl;
-			choice[i]->setColor(0.0, 0.3 * i, 1.0, 1.0);
-			choice[i]->setSize(800, 60);
-			choice[i]->setPosition(glm::vec3(135, upper - ((diff / (num*1.0f))*(i + 1)), 0));
-			objects.push_back(choice[i]);
-			this->choices[i] = choice[i];
-			TextObject * text = new TextObject(true);
-			SDL_Color textColor = { 0,0,255 };
-			if (i == 0)
-			{
-				text->loadText("Choice 1", textColor, "neuropol.ttf", 40);
-			}
-			else
-			{
-				text->loadText("Choice 2", textColor, "neuropol.ttf", 40);
-			}
-			text->translate(glm::vec3(135, upper - ((diff / (num*1.0f))*(i + 1)), 0));
-			objects.push_back(text);
-		}
-	}
+		float diff = upper - lower;
+		choice[i]->SetID(i);
+		cout << "Choice " << i << " id: " << choice[i]->GetID() << endl;
 	
+		/*choice[i]->setColor(0.0, 0.3 * i, 1.0, 1.0);
+		choice[i]->setSize(800, 60);
+		choice[i]->setPosition(glm::vec3(135, upper - ((diff/(num*1.0f))*(i+1)), 0));
+		objects.push_back(choice[i]);
+		this->choices[i] = choice[i];
+		TextObject * text = new TextObject(true);
+		SDL_Color textColor = { 0,0,255 };
+		if (i == 0)
+		{
+			ele = doc.FirstChildElement("Scene")->FirstChildElement("Choice")->FirstChildElement("c1");
+			const char* choicexml = ele->GetText();
+			string c1(choicexml);
+			text->loadText(c1, textColor, "neuropol.ttf", 40);
+	
+		}
+		else
+		{
+			ele = doc.FirstChildElement("Scene")->FirstChildElement("Choice")->FirstChildElement("c2");
+			const char* choicexml = ele->GetText();
+			string c2(choicexml);
+			text->loadText(c2, textColor, "neuropol.ttf", 40);
+		}
+		text->translate(glm::vec3(135, upper - ((diff / (num*1.0f))*(i + 1)), 0));
+		objects.push_back(text);*/
+	}
 
 
 }
@@ -220,6 +239,18 @@ void Game::update(float deltaTime)
 	for (DrawableObject* obj : objects) {
 		obj->update(deltaTime);
 	}
+}
+
+void Game::LoadScene(Scene scene)
+{
+	objects.push_back(scene.background);
+	
+	for (Choices *ch : scene.choice)
+	{
+		objects.push_back(ch);
+	}
+	
+
 }
 
 Game::Game()

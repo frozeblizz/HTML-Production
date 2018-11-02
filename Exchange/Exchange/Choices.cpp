@@ -2,11 +2,13 @@
 #include "Choices.h"
 #include "Game.h"
 #include "SquareMeshVbo.h"
+#include "TextMeshVbo.h"
+#include "DiaTextMeshVbo.h"
 
 
 Choices::Choices()
 {
-	color = glm::vec4(0.0, 0.0, 0.0, 0.0);
+	
 }
 
 
@@ -14,50 +16,29 @@ Choices::~Choices()
 {
 }
 
-void Choices::setColor(float r, float g, float b, float a)
-{
-	color = glm::vec4(r, g, b, a);
-
-}
-
 void Choices::render(glm::mat4 globalModelTransform)
 {
+	GLuint modelMatixId = Game::getInstance()->getRenderer()->getModelMatrixAttrId();
 	GLuint modeId = Game::getInstance()->getRenderer()->getModeUniformId();
 
-	SquareMeshVbo *squareMesh = dynamic_cast<SquareMeshVbo *> (Game::getInstance()->getRenderer()->getMesh(SquareMeshVbo::MESH_NAME));
-
-	GLuint modelMatixId = Game::getInstance()->getRenderer()->getModelMatrixAttrId();
-	GLuint colorId = Game::getInstance()->getRenderer()->getColorUniformId();
-
+	
 
 	if (modelMatixId == -1) {
 		cout << "Error: Can't perform transformation " << endl;
 		return;
 	}
-	if (colorId == -1) {
-		cout << "Error: Can't set color " << endl;
-		return;
-	}
-	vector <glm::mat4> matrixStack;
 
 	glm::mat4 currentMatrix = this->getTransform();
 
+	SquareMeshVbo *squareMesh = dynamic_cast<SquareMeshVbo *> (Game::getInstance()->getRenderer()->getMesh(SquareMeshVbo::MESH_NAME));
 	if (squareMesh != nullptr) {
 
 		currentMatrix = globalModelTransform * currentMatrix;
 		//currentMatrix = glm::scale(currentMatrix, glm::vec3(0.25f, 0.3f, 1.0f));
 		glUniformMatrix4fv(modelMatixId, 1, GL_FALSE, glm::value_ptr(currentMatrix));
-		glUniform4f(colorId, color.x, color.y, color.z, color.w);
 
-		if (texture == 0)
-		{
-			glUniform1i(modeId, 0);
-		}
-		else
-		{
-			glBindTexture(GL_TEXTURE_2D, texture);
-			glUniform1i(modeId, 1);
-		}
+		glBindTexture(GL_TEXTURE_2D, BGtexture);
+		glUniform1i(modeId, 1);
 		squareMesh->render();
 
 		/*currentMatrix = glm::translate(currentMatrix, glm::vec3(1.0f,0.0f,0.0f));
@@ -66,6 +47,20 @@ void Choices::render(glm::mat4 globalModelTransform)
 		starMesh->render();*/
 
 	}
+
+	
+	
+	TextMeshVbo *textMesh = dynamic_cast<TextMeshVbo *> (Game::getInstance()->getRenderer()->getMesh(TextMeshVbo::MESH_NAME));
+	if (textMesh != nullptr) {
+
+		currentMatrix = globalModelTransform * currentMatrix;
+		glUniformMatrix4fv(modelMatixId, 1, GL_FALSE, glm::value_ptr(currentMatrix));
+		glUniform1i(modeId, 1);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		textMesh->render();
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	
 }
 
 void Choices::loadTexture(string fileName)
@@ -77,8 +72,8 @@ void Choices::loadTexture(string fileName)
 		cerr << "IMG_Load: " << SDL_GetError() << endl;
 		return;
 	}
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
+	glGenTextures(1, &BGtexture);
+	glBindTexture(GL_TEXTURE_2D, BGtexture);
 
 	int Mode = GL_RGB;
 	if (image->format->BytesPerPixel == 4)
