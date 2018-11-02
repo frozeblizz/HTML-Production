@@ -49,7 +49,7 @@ Scene::Scene(const char * xml)
 		ch->setPosition(glm::vec3(135, upper - ((diff / (choiceSize*1.0f))*(i + 1)), 0));
 		cout << ele->GetText();
 		string temp(ele->GetText());
-		ch->loadText(temp, textcolor, "neuropol.ttf", 40);
+		ch->loadText(temp, textcolor, "Font/LibreBaskerville-Regular.otf", 40);
 		choice.push_back(ch);
 		ele = ele->NextSiblingElement();
 	}

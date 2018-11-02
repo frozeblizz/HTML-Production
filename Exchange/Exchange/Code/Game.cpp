@@ -159,7 +159,7 @@ void Game::init(int width, int height)
 
 	TextObject * name = new TextObject(true); //Name
 	SDL_Color textColor = { 0,0,255 };
-	name->loadText("Name", textColor, "neuropol.ttf", 40);
+	name->loadText("Name", textColor, "Font/LibreBaskerville-Regular.otf", 40);
 	name->translate(glm::vec3(-275, -70, 0));
 	objects.push_back(name);
 
@@ -177,7 +177,7 @@ void Game::init(int width, int height)
 	string dialogueText(textxml);
 	SDL_Color dialogueColor = { 0,0,0 };
 	dialogue->setFullText(dialogueText);
-	dialogue->setFontName("neuropol.ttf");
+	dialogue->setFontName("Font/LibreBaskerville-Regular.otf");
 	dialogue->setTextColor(dialogueColor);
 	dialogue->setFontSize(30);
 	dialogue->setPosition(glm::vec3(-363, -100, 0));
@@ -212,7 +212,7 @@ void Game::init(int width, int height)
 			ele = doc.FirstChildElement("Scene")->FirstChildElement("Choice")->FirstChildElement("c1");
 			const char* choicexml = ele->GetText();
 			string c1(choicexml);
-			text->loadText(c1, textColor, "neuropol.ttf", 40);
+			text->loadText(c1, textColor, "Font/LibreBaskerville-Regular.otf", 40);
 	
 		}
 		else
@@ -220,7 +220,7 @@ void Game::init(int width, int height)
 			ele = doc.FirstChildElement("Scene")->FirstChildElement("Choice")->FirstChildElement("c2");
 			const char* choicexml = ele->GetText();
 			string c2(choicexml);
-			text->loadText(c2, textColor, "neuropol.ttf", 40);
+			text->loadText(c2, textColor, "Font/LibreBaskerville-Regular.otf", 40);
 		}
 		text->translate(glm::vec3(135, upper - ((diff / (num*1.0f))*(i + 1)), 0));
 		objects.push_back(text);*/
